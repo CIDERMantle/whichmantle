@@ -1,3 +1,28 @@
+function varargout=LAB2geotherm(labdepth)
+% [thedates,PGRt,PGRtU,PGRtL]=LAB2GEOTHERM(labdepth)
+%
+% This function accepts a depth to the LAB that you have perhaps 
+% from seismic observations and returns a synthetic geotherm made 
+% from half space cooling theory  where the boundary layer 
+% depth corresponds to the depth you requested.
+%
+% INPUT:
+%
+% labdepth     
+%
+%            
+% OUTPUT:
+%
+% thedates      Your dates back to you.
+%
+%
+% NOTES:   
+%
+% SEE ALSO:  
+% Last modified by charig-at-email.arizona.edu on 10/19/2016
+
+
+
 
 % Add the path to the gmt functions
 setenv('PATH',[getenv('PATH') ':' '/usr/local/bin'])
