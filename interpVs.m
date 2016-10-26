@@ -1,8 +1,8 @@
-function varargout=interpVs(mycase)
+function varargout=interpVs()
 % []=INTERPVS()
 %
-% Accept a predicted Vs grid and reinterpolate it using Generic 
-% Mapping Tools so we can compare with the observations from Colorado
+% Accept the observed Vs grid and reinterpolate it using Generic 
+% Mapping Tools so we can compare with the predicted model data
 %
 % INPUT:     
 % 
@@ -102,8 +102,8 @@ for d = 1:length(delz)
     % from the LAB depth dataset
     if haveNans
       newVsObs(:,:,d) = newVsObs(:,:,d).*~NanDepth;
-      [i,j] = find(NanDepth==1);
-      newVsObs(i,j,d) = NaN;
+      i = find(NanDepth==1);
+      newVsObs(dx*dy*(d-1)+find(NanDepth==1)) = NaN;
     end
     
 
@@ -116,15 +116,18 @@ for d = 1:length(delz)
 end
 
 % Compare the new interpolated VsObs with the old
-figure
-imagesc(newVsObs(:,:,50))
-figure
-imagesc(reshape(Vs_obsIntF(:,50),53,53))
+%figure
+%imagesc(newVsObs(:,:,25))
+%figure
+%imagesc(flipud(reshape(Vs_obsIntF(:,25),53,53)'))
+% This looks good
 
-% From here you can do
-% newlon - predlon
-% newlat - predlat
-% newVsObs(:,:,13) - predVs(:,:,13)
+% Save the new observations to a file, which we can then load to do the
+% comparisons to the predicted
+save('Data/finalObsVs.mat','newVsObs')
+delete('gmt.history')
+delete('tempgrid*')
+
 
 
 
