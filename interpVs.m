@@ -22,7 +22,8 @@ function varargout=interpVs(mycase)
 % SEE ALSO:  
 % Last modified by charig-at-email.arizona.edu on 10/25/2016
 
-defval('delz',[(5000:2000:197000),(200000:5000:400000)]);
+%defval('delz',[(5000:2000:197000),(200000:5000:400000)]);
+defval('delz',[0:5000:200000]');
 defval('R','-R244/257/31/44');
 defval('haveNans',0);
 defval('dx',66);
@@ -47,7 +48,7 @@ defval('ddir1',fullfile('Data'));
 % Get and load the observed Vs data
 fnpl1=sprintf('%s/%s.mat',ddir1,'Vs_observation_DepthInt');
 load(fnpl1)
-% The data is saved as three matrices, latobsIntF, lonobsIntF, Vs_obsIntF
+% The data are saved as three matrices, latobsIntF, lonobsIntF, Vs_obsIntF
 
 
 % Load the location of NaNs from the LAB depth data set if we have it
