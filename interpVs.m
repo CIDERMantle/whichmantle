@@ -20,7 +20,7 @@ function varargout=interpVs()
 % They both have the same areal extents, which will be -R244/257/31/44
 %
 % SEE ALSO:  
-% Last modified by charig-at-email.arizona.edu on 10/25/2016
+% Last modified by charig-at-email.arizona.edu on 10/26/2016
 
 %defval('delz',[(5000:2000:197000),(200000:5000:400000)]);
 defval('delz',[0:5000:200000]');
