@@ -37,7 +37,29 @@ VsP = flipud(reshape(VsP,dx,dy)');
 % Quick figs
 figure
 imagesc(VsP)
+caxis([4200 4800])
 title('Predicted')
 figure
-imagesc(newVsObs(:,:,25))
+% Go to m/s
+VsO = newVsObs(:,:,25)*1000;
+imagesc(VsO)
+caxis([4200 4800])
 title('Observed')
+
+
+
+% Lets make a statistic for the comparison
+rmse = sqrt(nansum((VsO(:) - VsP(:)).^2))/length(VsO(:))
+
+% Image the resisuals
+figure 
+imagesc(VsO - VsP)
+caxis([-500 500])
+title('Residuals')
+
+% Skew plot the residuals
+figure
+plot(VsP(:),VsO(:),'.')
+xlim([4100 4800])
+ylim([4100 4800])
+
