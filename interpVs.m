@@ -1,8 +1,8 @@
-function varargout=interpVs(mycase)
+function varargout=interpVs()
 % []=INTERPVS()
 %
-% Accept a predicted Vs grid and reinterpolate it using Generic 
-% Mapping Tools so we can compare with the observations from Colorado
+% Accept the observed Vs grid and reinterpolate it using Generic 
+% Mapping Tools so we can compare with the predicted model data
 %
 % INPUT:     
 % 
@@ -20,9 +20,10 @@ function varargout=interpVs(mycase)
 % They both have the same areal extents, which will be -R244/257/31/44
 %
 % SEE ALSO:  
-% Last modified by charig-at-email.arizona.edu on 10/25/2016
+% Last modified by charig-at-email.arizona.edu on 10/26/2016
 
-defval('delz',[(5000:2000:197000),(200000:5000:400000)]);
+%defval('delz',[(5000:2000:197000),(200000:5000:400000)]);
+defval('delz',[0:5000:200000]');
 defval('R','-R244/257/31/44');
 defval('haveNans',0);
 defval('dx',66);
@@ -47,7 +48,7 @@ defval('ddir1',fullfile('Data'));
 % Get and load the observed Vs data
 fnpl1=sprintf('%s/%s.mat',ddir1,'Vs_observation_DepthInt');
 load(fnpl1)
-% The data is saved as three matrices, latobsIntF, lonobsIntF, Vs_obsIntF
+% The data are saved as three matrices, latobsIntF, lonobsIntF, Vs_obsIntF
 
 
 % Load the location of NaNs from the LAB depth data set if we have it
@@ -101,8 +102,8 @@ for d = 1:length(delz)
     % from the LAB depth dataset
     if haveNans
       newVsObs(:,:,d) = newVsObs(:,:,d).*~NanDepth;
-      [i,j] = find(NanDepth==1);
-      newVsObs(i,j,d) = NaN;
+      i = find(NanDepth==1);
+      newVsObs(dx*dy*(d-1)+find(NanDepth==1)) = NaN;
     end
     
 
@@ -115,15 +116,18 @@ for d = 1:length(delz)
 end
 
 % Compare the new interpolated VsObs with the old
-figure
-imagesc(newVsObs(:,:,50))
-figure
-imagesc(reshape(Vs_obsIntF(:,50),53,53))
+%figure
+%imagesc(newVsObs(:,:,25))
+%figure
+%imagesc(flipud(reshape(Vs_obsIntF(:,25),53,53)'))
+% This looks good
 
-% From here you can do
-% newlon - predlon
-% newlat - predlat
-% newVsObs(:,:,13) - predVs(:,:,13)
+% Save the new observations to a file, which we can then load to do the
+% comparisons to the predicted
+save('Data/finalObsVs.mat','newVsObs')
+delete('gmt.history')
+delete('tempgrid*')
+
 
 
 
