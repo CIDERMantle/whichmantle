@@ -6,7 +6,7 @@
 % fugacity, T is given in "correctwater.m"
 % 
 
-function Q = Qinv(C,T,Tmelt)
+function Q = Qinv(C,T,Tmelt,alpha)
    w = 1; % Hz, when calculating geothermal
    beta = 25;
    
