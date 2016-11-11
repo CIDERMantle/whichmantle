@@ -24,6 +24,7 @@ function vs_cor = correctwater(vs,Ch20,T,Tmelt)
 % codes (VsBurg.m  variable Te)
 % Ch20 is the water content, unit is ppm H/Si
 
+
 alpha = 0.1;
 t1 = (1/2)*cotd(90*alpha);
 % right now, we only set up one variable which is C as water
@@ -33,7 +34,7 @@ t1 = (1/2)*cotd(90*alpha);
 %melting temperature and pressure in the specific depth for specific
 %mineral material, 
 
-Q = Qinv(Ch20,T,Tmelt);
+Q = Qinv(Ch20,T,Tmelt,alpha);
 vs_cor = vs*(1-t1*Q);
 
 return 
