@@ -11,16 +11,22 @@ omega = 2*pi*100; rho = 3310; GUR = 66.5e+6;
 
 % solve for initial viscosity using reference values
 % This assumes a spring and dashpot model of shearwave propagation
-y = sqrt(8*GUR^2-rho^(3/2) * vs^3 * sqrt(8*GUR+rho*vs^2)+(rho^2)*(vs^4)+4*GUR*rho*vs^2)/(2 * sqrt(2));
-nu = y/(omega^2);
-nu_melt = nu/3;
+a = -8 .* GUR.^2 ;
+b = rho^2 .* vs.^4 ;
+c = 4 .* GUR .* rho .* vs.^2 ;
+d = rho^(3/2) .* vs.^3 .* sqrt(8*GUR + rho .* vs.^2);
+nu_d = 2 * omega * sqrt(2);
+nu = sqrt(a+b+c+d) ./ nu_d;
+nu_melt = 2*nu./3;
 
 if melt_indicator == 1
-	denom = 2 *(GUR^2 + omega^2 * nu_melt^2)
-	numer = rho * (GUR + sqrt(GUR^2 + omega^2 * nu_melt^2))
-	vs_cor = denom/numer
+    denom = 2*(GUR.^2 + omega.^2 * nu_melt.^2);
+    numer = rho .* (GUR + sqrt(GUR^2 + omega^2 * nu_melt.^2));
+    vs_cor = sqrt(denom./numer)
 
 else
 	vs_cor = vs
+end
 
-
+%% MAKE A PLOT OF HOW THIS EFFECTS VS 
+%% Shows the magnitude of correction
