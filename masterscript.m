@@ -41,8 +41,11 @@ thegrains = [1e-2 1e-3 1e-4 1e-2 1e-3 1e-4 1e-2 1e-3 1e-4 1e-2 1e-3 1e-4 1e-2 1e
 % Each of the above scripts create save files, so we can just load them
 %%%
 
+mydepth=25; %70km
+
 % Now load the observed data
 load('Data/finalObsVs.mat')
+VsO = squeeze(newVsObs(:,:,mydepth)).*1000;
 % The data are in the matrix "newVsObs"
 
 %mycase='T1150g3';
@@ -69,7 +72,7 @@ defval('dy',66);
 defval('lonp',repmat([244:0.2:257]',dy,1));
 defval('latp',gamini([31:0.2:44],dx)');
 
-VsP = Vs_all(:,15);
+VsP = Vs_all(:,mydepth);
 VsP = flipud(reshape(VsP,dx,dy)');
 % % Quick figs
 % figure
@@ -189,7 +192,7 @@ set(gca, 'YTick', [4000 4200 4400 4600 4800])
 title('Skew plot of the residuals')
 axis square
 grid on
-saveas(gcf,['figures/' mycase{i} '_fig.png'])
+saveas(gcf,['figures/' mycase{i} '_'  num2str(delz(mydepth)) '_fig.png'])
 
 end
 
@@ -203,7 +206,7 @@ colorbar
 xlabel('Potential Temperature')
 ylabel('Grainsize')
 title('rmse of cases')
-saveas(gcf,['figures/rmse_fig.png'])
+saveas(gcf,['figures/rmse_' num2str(delz(mydepth)) '_fig.png'])
 
 
 
