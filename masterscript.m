@@ -41,7 +41,7 @@ thegrains = [1e-2 1e-3 1e-4 1e-2 1e-3 1e-4 1e-2 1e-3 1e-4 1e-2 1e-3 1e-4 1e-2 1e
 % Each of the above scripts create save files, so we can just load them
 %%%
 
-mydepth=15; %15 = 70km   25 = 120km
+mydepth=25; %15 = 70km   25 = 120km
 
 % Now load the observed data
 load('Data/finalObsVs.mat')
@@ -107,6 +107,7 @@ load('Data/wus_provinces_ll')
 %coast = load('coast');
 % Combined figure
 figure('position',[1 1 800 800])
+
 subplot(2,2,1)
 % Parallels = lattitude
 % Meridians = longitude
@@ -125,8 +126,9 @@ kelicol(1)
 hold on
 %geoshow(coast.lat,coast.long,'DisplayType','line')
 plotm(wus_provinces_ll(:,1),wus_provinces_ll(:,2),'w','LineWidth',1.5)
-title('Observed Vs')
-colorbar
+title(['Observed Vs, ' num2str(delz(mydepth)/1000) 'km depth'])
+h=colorbar;
+h.Label.String = '(m/s)';
 
 
 
@@ -148,8 +150,10 @@ kelicol(1)
 hold on
 %geoshow(coast.lat,coast.long,'DisplayType','line')
 plotm(wus_provinces_ll(:,1),wus_provinces_ll(:,2),'w','LineWidth',1.5)
-title(['Predicted Vs, case:' mycase{i}])
-colorbar
+title(['Predicted Vs, case:' mycase{i} ', ' num2str(delz(mydepth)/1000) 'km depth'])
+h=colorbar;
+h.Label.String = '(m/s)';
+
 
 %imagesc(VsP)
 %caxis([4200 4800])
@@ -173,7 +177,9 @@ hold on
 %geoshow(coast.lat,coast.long,'DisplayType','line')
 plotm(wus_provinces_ll(:,1),wus_provinces_ll(:,2),'w','LineWidth',1.5)
 title('Residuals (Obs - Pred)')
-colorbar
+h=colorbar;
+h.Label.String = '(m/s)';
+
 
 %imagesc(VsO - VsP)
 %caxis([-500 500])
@@ -184,15 +190,15 @@ subplot(2,2,4)
 plot(VsP(:),VsO(:),'.')
 xlim([4000 4800])
 ylim([4000 4800])
-xlabel('Predicted values');
-ylabel('Observed values');
+xlabel('Predicted values (m/s)');
+ylabel('Observed values (m/s)');
 set(gca, 'XTick', [4000 4200 4400 4600 4800])
 set(gca, 'YTick', [4000 4200 4400 4600 4800])
 
 title('Skew plot of the residuals')
 axis square
 grid on
-%saveas(gcf,['figures/' mycase{i} '_'  num2str(delz(mydepth)) '_fig.png'])
+saveas(gcf,['figures/' mycase{i} '_'  num2str(delz(mydepth)) '_fig.png'])
 
 end
 
@@ -208,7 +214,7 @@ h=colorbar;
 h.Label.String = 'rmse (m/s)';
 xlabel('Potential Temperature')
 ylabel('Grainsize')
-title('rmse of cases')
+title(['rmse of cases, ' num2str(delz(mydepth)/1000) 'km depth'])
 saveas(gcf,['figures/rmse_' num2str(delz(mydepth)) '_fig.png'])
 
 
