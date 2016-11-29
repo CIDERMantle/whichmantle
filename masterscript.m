@@ -41,7 +41,7 @@ thegrains = [1e-2 1e-3 1e-4 1e-2 1e-3 1e-4 1e-2 1e-3 1e-4 1e-2 1e-3 1e-4 1e-2 1e
 % Each of the above scripts create save files, so we can just load them
 %%%
 
-mydepth=25; %70km
+mydepth=15; %15 = 70km   25 = 120km
 
 % Now load the observed data
 load('Data/finalObsVs.mat')
@@ -192,17 +192,20 @@ set(gca, 'YTick', [4000 4200 4400 4600 4800])
 title('Skew plot of the residuals')
 axis square
 grid on
-saveas(gcf,['figures/' mycase{i} '_'  num2str(delz(mydepth)) '_fig.png'])
+%saveas(gcf,['figures/' mycase{i} '_'  num2str(delz(mydepth)) '_fig.png'])
 
 end
 
-save('Data/theRMSEs.mat','mycase','rmse')
+save(['Data/theRMSEs_' num2str(delz(mydepth)) '.mat'],'mycase','rmse')
 
 % Figure of the RMSE
 figure
 scatter(thetemps,thegrains,200,rmse,'filled')
+g = gca;
 set(gca,'yscale','log')
-colorbar
+g.Title.Position(2) = .012;
+h=colorbar;
+h.Label.String = 'rmse (m/s)';
 xlabel('Potential Temperature')
 ylabel('Grainsize')
 title('rmse of cases')
